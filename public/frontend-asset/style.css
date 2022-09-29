@@ -1899,7 +1899,7 @@ input[type=submit]:focus {
 }
 .offcanvas-menu a {
   color: #ffffff;
-  font-size: 32px;
+  font-size: 35px;
 }
 .offcanvas-menu a:hover, .offcanvas-menu a:focus {
   color: #174B90;
@@ -6808,4 +6808,11 @@ input[type=submit]:focus {
 /* my custom css */
 section.home-gallery,section.home-package {
     padding-top: 115px;
+}
+h3.page-mydate {
+    color: #fff;
+}
+h1.font26.blackText.latoBlack.appendBottom10 {
+    font-size: 24px;
+    margin-bottom: 5px;
 }

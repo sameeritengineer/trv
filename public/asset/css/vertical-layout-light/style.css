@@ -30790,3 +30790,9 @@ input::-webkit-file-upload-button:hover {
 }
 
  /* multiple images with popup css ends */
+p.card-description {
+    float: right;
+}
+.activities input.form-control {
+    width: 75%;
+}

@@ -22,7 +22,11 @@ Auth::routes();
 
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
 Route::get('/', [App\Http\Controllers\Web\WebhomeControllers::class, 'index'])->name('home');
+Route::get('/destinations', [App\Http\Controllers\Web\WebhomeControllers::class, 'allDestination'])->name('destinations');
 Route::get('/pages/{id}', [App\Http\Controllers\Web\WebhomeControllers::class, 'pages'])->name('pages');
+Route::get('/contact', [App\Http\Controllers\Web\WebhomeControllers::class, 'contact'])->name('contact');
+Route::get('/faq', [App\Http\Controllers\Web\WebhomeControllers::class, 'faq'])->name('faq');
+Route::get('/single-destination/{id}', [App\Http\Controllers\Web\WebhomeControllers::class, 'sDestination'])->name('single-destination');
 
 /* Admin Panel Routes */
 Route::group(['as'=>'admin.','prefix' => 'admin','middleware'=>['auth','admin']], function () {
@@ -49,6 +53,11 @@ Route::group(['as'=>'admin.','prefix' => 'admin','middleware'=>['auth','admin']]
     Route::post('/destination/store', [App\Http\Controllers\Admin\DestinationControllers::class, 'store'])->name('store-destination');
     Route::get('/destination/edit/{destination}', [App\Http\Controllers\Admin\DestinationControllers::class, 'edit'])->name('edit-destination');
     Route::post('/destination/update/{destination}', [App\Http\Controllers\Admin\DestinationControllers::class, 'update'])->name('update-destination');
+
+    /* Includes & excludes Routes */
+    Route::get('/extra/create/{type}', [App\Http\Controllers\Admin\DestinationControllers::class, 'createExtra'])->name('create-extra');
+    Route::post('/extra/store', [App\Http\Controllers\Admin\DestinationControllers::class, 'storeExtra'])->name('store-extra');
+    Route::post('/extra/delete', [App\Http\Controllers\Admin\DestinationControllers::class, 'destroyExtra'])->name('delete-extra');
 
 
     /* Delete Gallery images */

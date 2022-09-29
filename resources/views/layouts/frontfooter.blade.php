@@ -9,9 +9,9 @@
                               <div class="footer-logo">
                                  <a href="index.html"><img src="{{asset('frontend-asset/images/logow.png')}}" alt=""></a>
                               </div>
-                              <div class="textwidget widget-text">
+                              <!-- <div class="textwidget widget-text">
                                  Urna ratione ante harum provident, eleifend, vulputate molestiae proin fringilla, praesentium magna conubia at perferendis, pretium, aenean aut ultrices.
-                              </div>
+                              </div> -->
                            </aside>
                         </div>
                         <div class="col-lg-3 col-sm-6">
@@ -119,13 +119,13 @@
                   <div class="lower-footer">
                      <div class="row align-items-center">
                         <div class="col-lg-6">
-                           <div class="footer-newsletter">
+                           <!-- <div class="footer-newsletter">
                               <p>Subscribe our newsletter for more update & news !!</p>
                               <form class="newsletter">
                                  <input type="email" name="email" placeholder="Enter Your Email">
                                  <button type="submit" class="outline-btn outline-btn-white">Subscribe</button>
                               </form>
-                           </div>
+                           </div> -->
                         </div>
                         <div class="col-lg-6 text-right">
                            <div class="social-icon">
@@ -163,10 +163,10 @@
                                     <a href="{{ route('pages',3) }}">Privacy Policy</a>
                                  </li>
                                  <li>
-                                    <a href="policy.html">Term & Condition</a>
+                                    <a href="{{ route('pages',4) }}">Term & Condition</a>
                                  </li>
                                  <li>
-                                    <a href="faq.html">FAQ</a>
+                                    <a href="{{ route('faq') }}">FAQ'S</a>
                                  </li>
                               </ul>
                            </div>
@@ -200,7 +200,7 @@
          </div>
          <!-- ***custom search field html*** -->
          <!-- ***custom top bar offcanvas html*** -->
-         <div id="offCanvas" class="offcanvas-container">
+         <!-- <div id="offCanvas" class="offcanvas-container">
             <div class="offcanvas-inner">
                <div class="offcanvas-sidebar">
                   <aside class="widget author_widget">
@@ -258,5 +258,5 @@
                </a>
             </div>
             <div class="overlay"></div>
-         </div>
+         </div> -->
          <!-- ***custom top bar offcanvas html*** -->

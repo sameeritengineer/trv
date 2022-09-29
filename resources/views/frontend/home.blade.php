@@ -16,8 +16,8 @@
                               <h2 class="banner-title">{{$banner->title}}</h2>
                               <p>{!!$banner->desc!!}</p>
                               <div class="banner-btn">
-                                 <a href="about.html" class="round-btn">LEARN MORE</a>
-                                 <a href="booking.html" class="outline-btn outline-btn-white">BOOK NOW</a>
+                                 <!-- <a href="about.html" class="round-btn">LEARN MORE</a> -->
+                                 <a href="{{ route('destinations') }}" class="outline-btn outline-btn-white">Destinations</a>
                               </div>
                            </div>
                         </div>
@@ -28,7 +28,7 @@
             </section>
             <!-- ***home banner html end here*** -->
             <!-- ***Home search field html start from here*** -->
-            <div class="home-trip-search primary-bg">
+            <!-- <div class="home-trip-search primary-bg">
                <div class="container">
                   <form method="get" class="trip-search-inner d-flex">
                      <div class="group-input">
@@ -54,7 +54,7 @@
                      </div>
                   </form>
                </div>
-            </div>
+            </div> -->
             <!-- ***search search field html end here*** -->
             <!-- ***Home destination html start from here*** -->
 <!--             <section class="home-destination">
@@ -139,42 +139,41 @@
                      <div class="col-lg-8 offset-lg-2 text-sm-center">
                         <div class="section-heading">
                            <h5 class="sub-title">POPULAR DESTINATION</h5>
-                           <h2 class="section-title">CHECKOUT OUR DESTINATION</h2>
+                           <h2 class="section-title">The Mr B Experience</h2>
                            <p>Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum. Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.</p>
                         </div>
                      </div>
                   </div>
                   <div class="package-section">
+                                                               
                      @foreach($data['destination'] as $destination)
                      @php
                      $image = asset('/images/destination/'.$destination->image);
                      $start_date = strtotime($destination->start_date_time);
-                     $end_date = strtotime($destination->end_date_time);
-                     $sDate = date('Y-m-d',$start_date);
-                     $eDate = date('Y-m-d',$end_date);
-                     @endphp
-                     <article class="package-item">
+                     $sDate = date('m-d-Y',$start_date);
+                     @endphp                                       
+                        <article class="package-item">
                         <figure class="package-image" style="background-image: url({{$image}});"></figure>
                         <div class="package-content">
                            <h3>
-                              <a href="package-detail.html">
+                              <a href="{{ route('single-destination',$destination->id) }}">
                                  {{$destination->name}}
                               </a>
                            </h3>
-                           <p> {!!$destination->getShortContentAttribute()!!}</p>
+                           <p>{!!$destination->getShortContentAttribute()!!}</p>
                            <div class="package-meta">
                               <ul>
                                  <li>
-                                    <i class="fas fa-clock"></i>
-                                    {{$destination->getDays()+1}}D/{{$destination->getDays()}}N  
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{$destination->getCountry($destination->countryId)}}
+                                 </li>
+                                 <li>
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{$destination->getDays()+1}}D/{{$destination->getDays()}}N
                                  </li>
                                  <li>
                                     <i class="fas fa-calendar-alt"></i>
                                     {{$sDate}}
-                                 </li>
-                                 <li>
-                                    <i class="fas fa-calendar-alt"></i>
-                                    {{$eDate}}
                                  </li>
                               </ul>
                            </div>
@@ -192,13 +191,13 @@
                               <span>${{$destination->price}}</span>
                               / per person
                            </h6>
-                           <a href="booking.html" class="outline-btn outline-btn-white">Book now</a>
+                           <a href="#" class="outline-btn outline-btn-white">Book now</a>
                         </div>
                      </article>
                      @endforeach
-
+                     
                      <div class="section-btn-wrap text-center">
-                        <a href="package.html" class="round-btn">VIEW ALL DESTINATION</a>
+                        <a href="{{ route('destinations') }}" class="round-btn">VIEW ALL DESTINATION</a>
                      </div>
                   </div>
                </div>
@@ -219,8 +218,8 @@
                            <h2 class="section-title">ARE YOU READY TO TRAVEL? REMEMBER US !!</h2>
                            <p>Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum. Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.</p>
                            <div class="callback-btn">
-                              <a href="package.html" class="round-btn">View DESTINATIONS</a>
-                              <a href="about.html" class="outline-btn outline-btn-white">About Us</a>
+                              <a href="{{ route('destinations') }}" class="round-btn">View DESTINATIONS</a>
+                              <a href="{{ route('pages',2) }}" class="outline-btn outline-btn-white">About Us</a>
                            </div>
                         </div>
                      </div>

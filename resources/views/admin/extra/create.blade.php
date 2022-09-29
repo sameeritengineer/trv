@@ -3,21 +3,46 @@
 @section('content')
 <div class="content-wrapper">
           <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">All Destination</h4>
+                  <h4 class="card-title">Create {{$type}}</h4>
                   @if(Session::get('alert'))
             <div class="alert alert-{{ Session::get('alert') }} alert-dismissible" role="alert">
                 <p>{{ Session::get('message') }} </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
           @endif
-                  <p class="card-description">
-                    <a href="{{ route('admin.create-destination') }}" class="btn btn-primary pull-right" role="button">Add Destination</a>
-                  </p>
+
+          @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+          @endif
+                  <form class="forms-sample" action="{{ route('admin.store-extra') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                      <label for="exampleInputUsername1">Name :</label>
+                      <input type="text" name="name" class="form-control" id="exampleInputUsername1" placeholder="Name..." value="{{ old('name') }}">
+            <p class="text-danger">{{ $errors->first('name') }}</p>
+            <input type="hidden" name="type" value="{{$type}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">All {{$type}}</h4>
                   <div class="table-responsive">
-                    <table id="tesTable" class="table table-striped">
+                    <table id="extraTable" class="table table-striped">
                       <thead>
                         <tr>
                           <th>
@@ -27,24 +52,12 @@
                             Name
                           </th>
                           <th>
-                            Price
-                          </th>
-                          <th>
-                            Start Date
-                          </th>
-                          <th>
-                            End Date
-                          </th>
-                          <th>
-                            Status
-                          </th>
-                          <th>
                             Action
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($destination as $test)
+                        @foreach($data as $test)
                         <tr>
                           <td class="py-1">
                             {{$test->id}}
@@ -53,21 +66,7 @@
                             {{$test->name}}
                           </td>
                           <td>
-                            ${{$test->price}}
-                          </td>
-                          <td>
-                            {{$test->start_date_time}}
-                          </td>
-                          <td>
-                            {{$test->end_date_time}}
-                          </td>
-                          <td>
-                            <span class="badge" style="background-color:{{$test->status ==1 ? '#5cb85c' : '#c3c50a'}}">
- {{$test->status == 1 ? 'Active' : 'In-Active'}}</span> 
-                          </td>
-                          <td>
-                            <a href="{{ route('admin.edit-destination',$test->id) }}" class="btn btn-primary">Edit</a>
-                        <a data-toggle="modal" data-id="{{$test->id}}" data-target="#exampleModal" href="#" class="btn btn-danger get_delete">Delete</a>
+                        <a data-toggle="modal" data-type="{{$type}}" data-id="{{$test->id}}" data-target="#exampleModal" href="#" class="btn btn-danger get_delete">Delete</a>
                           </td>
                         </tr>
                         @endforeach
@@ -78,10 +77,10 @@
               </div>
             </div>
 
-                <!-- /.table-responsive -->
-          </div>
 
-<!-- Modal -->
+          </div>
+        </div>
+        <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -96,25 +95,26 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <form action="{{ route('admin.delete-testimonial') }}" method="post">
+        <form action="{{ route('admin.delete-extra') }}" method="post">
           @csrf
-          <input type="hidden" name="destinationlId" id="destinationlId" value="">
+          <input type="hidden" name="extraId" id="extraId" value="">
+          <input type="hidden" name="extraType" id="extraType" value="">
         <button type="submit" class="btn btn-primary">Delete</button>
        </form>
       </div>
     </div>
   </div>
 </div>
-
-      </div>
 @endsection
 @section('footer.script')
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#tesTable').DataTable({ordering: false});
+    $('#extraTable').DataTable({ordering: false});
     $(".get_delete").click(function(){
         var id = $(this).attr('data-id');
-        $("#destinationlId").val(id);
+        var type = $(this).attr('data-type');
+        $("#extraId").val(id);
+        $("#extraType").val(type);
     });
   });
 </script>

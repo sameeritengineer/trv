@@ -37,9 +37,9 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Price:</label>
+                          <label class="col-sm-3 col-form-label">Price($)</label>
                           <div class="col-sm-9">
-                          <input type="number" name="price" class="form-control" id="exampleInputPrice" placeholder="Price..." value="{{ old('price') }}">
+                          <input type="number" name="price" class="form-control" id="exampleInputPrice" placeholder="Price($)" value="{{ old('price') }}">
                            <p class="text-danger">{{ $errors->first('price') }}</p>
                           </div>
                         </div>
@@ -48,19 +48,60 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Start Date & Time</label>
+                          <label class="col-sm-3 col-form-label">Start Date</label>
                           <div class="col-sm-9">
-                            <input class="form-control" type="datetime-local" id="destSdaytime" name="destSdaytime" value="{{ old('destSdaytime') }}">
+                            <input class="form-control" type="date" id="destSdaytime" name="destSdaytime" value="{{ old('destSdaytime') }}">
                             <p class="text-danger">{{ $errors->first('destSdaytime') }}</p>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">End Date & Time</label>
+                          <label class="col-sm-3 col-form-label">End Date</label>
                           <div class="col-sm-9">
-                            <input class="form-control" type="datetime-local" id="destEdaytime" name="destEdaytime" value="{{ old('destEdaytime') }}">
+                            <input class="form-control" type="date" id="destEdaytime" name="destEdaytime" value="{{ old('destEdaytime') }}">
                             <p class="text-danger">{{ $errors->first('destEdaytime') }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Vimeo or Youtube</label>
+                          <div class="col-sm-9">
+                            <input class="form-control" type="text" id="video" name="video" value="{{ old('video') }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Country</label>
+                          <div class="col-sm-9">
+                            <select class="form-control" required="" name="country">
+                              @foreach($data['countries'] as $country)
+                            <option value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
+                            </select>
+                            <p class="text-danger">{{ $errors->first('destEdaytime') }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Hotel Name</label>
+                          <div class="col-sm-9">
+                            <input class="form-control" type="text" id="hotelname" name="hotelname" value="{{ old('hotelname') }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Hotel Address</label>
+                          <div class="col-sm-9">
+                            <input class="form-control" type="text" id="hoteladd" name="hoteladd" value="{{ old('hoteladd') }}">
                           </div>
                         </div>
                       </div>
@@ -90,19 +131,41 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Deposite</label>
+                          <div class="col-sm-9">
+                            <select name="deposite[]" class="js-example-basic-multiple w-100" multiple="multiple">
+                            @foreach($data['deposite'] as $deposite)
+                            <option value="{{$deposite->id}}">{{$deposite->name}}</option>
+                            @endforeach
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Additonal Information</label>
+                          <div class="col-sm-12">
+                          <textarea id="addinfo"  name="addinfo" class="form-control"> {{ old('addinfo') }}</textarea>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Description</label>
                           <div class="col-sm-12">
-                          <textarea id="summernote"  name="description" class="form-control ckeditor"> {{ old('description') }}</textarea>
+                          <textarea id="summernote"  name="description" class="form-control content"> {{ old('description') }}</textarea>
                       <p class="text-danger">{{ $errors->first('description') }}</p>
                           </div>
                         </div>
                       </div>
                     </div>
-                   <div class="row">
+                   <div class="row activities">
                       <div class="col-md-12">
                         <div class="form-group row">
                           <label class="col-sm-2 col-form-label">Activities</label>
@@ -196,6 +259,7 @@
 @section('footer.script')
 <script type="text/javascript">
       $(document).ready(function () {
+           $('.content').richText();
           //$('.ckeditor').ckeditor();
           /*if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2();

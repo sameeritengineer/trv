@@ -4,32 +4,36 @@
             <div class="top-header">
                <div class="container">
                   <div class="top-header-inner">
-                     <div class="header-contact text-left">
-                        <a href="tel:+01977259912">
-                           <i aria-hidden="true" class="icon icon-phone-call2"></i>
-                           <div class="header-contact-details">
-                              <span class="contact-label">For Further Inquires :</span>
-                              <h5 class="header-contact-no">+01 (977) 2599 12</h5>
-                           </div>
-                        </a>
-                     </div>
-                     <div class="site-logo text-center">
+                     <div class="site-logo text-left">
                         <h1 class="site-title">
                            <a href="index.html">
                               <img src="{{asset('frontend-asset/images/logow.png')}}" alt="Logo">
                            </a>
                         </h1>
                      </div>
+                     <div class="header-contact text-center">
+                        <!-- <a href="tel:+01977259912">
+                           <i aria-hidden="true" class="icon icon-phone-call2"></i>
+                           <div class="header-contact-details">
+                              <span class="contact-label">For Further Inquires :</span>
+                              <h5 class="header-contact-no">+01 (977) 2599 12</h5>
+                           </div>
+                        </a> -->
+                     </div>
                      <div class="header-icon text-right">
                         <div class="header-search-icon d-inline-block">
                            <a href="#">
                               <i aria-hidden="true" class="fas fa-search"></i>
                            </a>
+                           
                         </div>
                         <div class="offcanvas-menu d-inline-block">
                            <a href="#">
-                              <i aria-hidden="true" class="icon icon-burger-menu"></i>
+                              <i aria-hidden="true" class="icon icon-user-login"></i>
                            </a>
+                           <!-- <a href="#">
+                              <i aria-hidden="true" class="icon icon-burger-menu"></i>
+                           </a> -->
                         </div>
                      </div>
                   </div>
@@ -64,11 +68,15 @@
                                  <a href="{{ route('home') }}">Home</a>
                               </li>
                               <li>
+                                 <a href="{{ route('destinations') }}">Destinations</a>
+                              </li>
+                              <li>
                                  <a href="{{ route('pages',2) }}">about us</a>
                               </li>
                               <li>
-                                 <a href="destination.html">destination</a>
+                                 <a href="{{ route('contact') }}">contact us</a>
                               </li>
+                              
                               <!-- <li class="menu-item-has-children">
                                  <a href="index.html">packages</a>
                                  <ul>
@@ -149,14 +157,12 @@
                                     </li>
                                  </ul>
                               </li> -->
-                              <li>
-                                 <a href="contact.html">contact us</a>
-                              </li>
+                              
                            </ul>
                         </nav>
                      </div>
                      <div class="header-btn">
-                        <a href="booking.html" class="round-btn">Book Now</a>
+                        <a href="#" class="round-btn">Book Now</a>
                      </div>
                   </div>
                </div>

@@ -107,6 +107,26 @@ a.article:hover {
                 <li class="{{ in_array(Route::currentRouteName(), ['admin.dashboard']) ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
+                <li class="{{ in_array(Route::currentRouteName(), ['admin.create-destination','admin.all-destination']) ? 'active' : '' }}">
+                    <a href="#destinations" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Destinations</a>
+                    <ul class="collapse list-unstyled {{ in_array(Route::currentRouteName(), ['admin.create-destination','admin.all-destination']) ? 'show' : '' }}" id="destinations">
+                        <li>
+                            <a href="{{ route('admin.create-destination') }}">Add New Destination</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.all-destination') }}">All Destination</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.create-extra',['include']) }}">Add Includes</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.create-extra',['exclude']) }}">Add Excludes</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.create-extra',['deposite']) }}">Add Deposite</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="{{ in_array(Route::currentRouteName(), ['admin.create-banner','admin.all-banner']) ? 'active' : '' }}">
                     <a href="#banner" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Banners</a>
                     <ul class="collapse list-unstyled {{ in_array(Route::currentRouteName(), ['admin.create-banner','admin.all-banner']) ? 'show' : '' }}" id="banner">
@@ -140,18 +160,8 @@ a.article:hover {
                         </li>
                     </ul>
                 </li>
-                <li class="{{ in_array(Route::currentRouteName(), ['admin.create-destination','admin.all-destination']) ? 'active' : '' }}">
-                    <a href="#destinations" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Destinations</a>
-                    <ul class="collapse list-unstyled {{ in_array(Route::currentRouteName(), ['admin.create-destination','admin.all-destination']) ? 'show' : '' }}" id="destinations">
-                        <li>
-                            <a href="{{ route('admin.create-destination') }}">Add New Destination</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.all-destination') }}">All Destination</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="{{ in_array(Route::currentRouteName(), ['admin.create-pages','admin.all-faq']) ? 'active' : '' }}">
+                
+                <li class="{{ in_array(Route::currentRouteName(), ['admin.create-pages','admin.all-pages']) ? 'active' : '' }}">
                     <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
                     <ul class="collapse list-unstyled {{ in_array(Route::currentRouteName(), ['admin.create-pages','admin.all-pages']) ? 'show' : '' }}" id="pages">
                         <li>
@@ -163,16 +173,24 @@ a.article:hover {
                     </ul>
                 </li>
                 <li class="{{ in_array(Route::currentRouteName(), ['admin.create-faq','admin.all-faq']) ? 'active' : '' }}">
-                    <a href="#faq" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Faq</a>
+                    <a href="#faq" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">FAQ’s</a>
                     <ul class="collapse list-unstyled {{ in_array(Route::currentRouteName(), ['admin.create-faq','admin.all-faq']) ? 'show' : '' }}" id="faq">
                         <li>
-                            <a href="{{ route('admin.create-faq') }}">Add New Faq</a>
+                            <a href="{{ route('admin.create-faq') }}">Add New FAQ’s</a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.all-faq') }}">All faq</a>
+                            <a href="{{ route('admin.all-faq') }}">All FAQ’s</a>
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+            <a class="nav-link {{ request()->is('logout') ? 'active' : '' }}" href="{{ route('logout') }}" 
+              onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+              <i class="icon-contract menu-icon"></i>
+              <span class="menu-title">Logout</span>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+            </a>
+          </li> 
 
             </ul>
         </nav>

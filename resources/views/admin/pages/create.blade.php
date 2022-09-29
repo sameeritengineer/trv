@@ -38,7 +38,7 @@
                     <div class="form-group">
                       <label>Profile Image</label>
 							<div class="form-group">
-								<input type="file"  id="uploadFile" name="image">
+								<input type="file"  id="uploadFile" name="image" required="">
 								<br>
 								<br>
 

@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Includedata;
 use App\Models\Excludedata;
+use App\Models\Depositedata;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use DB;
 
 class DestinationControllers extends Controller
 {
@@ -31,9 +33,13 @@ class DestinationControllers extends Controller
         
         $include = Includedata::get();
         $exclude = Excludedata::get();
+        $deposite = Depositedata::get();
+        $countries = DB::table('tbl_countries')->get();
         $data = array(
             'includes' => $include,
-            'excludes' => $exclude
+            'excludes' => $exclude,
+            'deposite' => $deposite,
+            'countries' => $countries
         );
         return view('admin.destination.create',compact('data'));
     }
@@ -54,14 +60,19 @@ class DestinationControllers extends Controller
 		        'destSdaytime.required' => 'The Start Date & Time field field is required!',
 		        'destEdaytime.required' => 'The End Date & Time field is required!',
 		    ]);
-        $start = date('Y-m-d h:i:s', strtotime($request->destSdaytime));
-        $end = date('Y-m-d h:i:s', strtotime($request->destEdaytime));   
+        //$start = date('Y-m-d h:i:s', strtotime($request->destSdaytime));
+        //$end = date('Y-m-d h:i:s', strtotime($request->destEdaytime));   
         $destination = new Destination([
          'name' => request('name'),
          'price' => request('price'),
-         'start_date_time' => $start,
-         'end_date_time' => $end,
+         'start_date_time' => $request->destSdaytime,
+         'end_date_time' => $request->destEdaytime,
          'description' => request('description'),
+         'video' => request('video'),
+         'countryId' => request('country'),
+         'hotelname' => request('hotelname'),
+         'hoteladd' => request('hoteladd'),
+         'addinfo' => request('addinfo'),
          'status' =>request('status')?1:0,   
         ]);
         /* Check Include Data from request */
@@ -93,6 +104,21 @@ class DestinationControllers extends Controller
         }else{
         	$Excludesdata = null;
         	$destination->excludesId = $Excludesdata;
+        }
+        /* Check Deposite Data from request */
+        if($request->has('deposite')){
+            $Depositedata = '';
+            $DepositedataArr = [];
+            foreach ($request->deposite as $deposite) {
+                $DepositedataArr[] = $deposite;
+            }
+            if (!empty($DepositedataArr)) {
+                $Depositedata = implode(',', $DepositedataArr);
+            }
+            $destination->depositeId = $Depositedata;
+        }else{
+            $Depositedata = null;
+            $destination->depositeId = $Depositedata;
         }
         /* Check Activities Data from request */
         if($request->has('activities')){
@@ -166,9 +192,13 @@ class DestinationControllers extends Controller
         $destination = Destination::findorfail($id);
         $include = Includedata::get();
         $exclude = Excludedata::get();
+        $deposite = Depositedata::get();
+        $countries = DB::table('tbl_countries')->get();
         $data = array(
             'includes' => $include,
-            'excludes' => $exclude
+            'excludes' => $exclude,
+            'deposite' => $deposite,
+            'countries' => $countries
         );
         return view('admin.destination.edit',compact('destination','data'));
 
@@ -189,15 +219,20 @@ class DestinationControllers extends Controller
 		        'destSdaytime.required' => 'The Start Date & Time field field is required!',
 		        'destEdaytime.required' => 'The End Date & Time field is required!',
 		    ]);
-        $start = date('Y-m-d h:i:s', strtotime($request->destSdaytime));
-        $end = date('Y-m-d h:i:s', strtotime($request->destEdaytime));
+        //$start = date('Y-m-d h:i:s', strtotime($request->destSdaytime));
+       //$end = date('Y-m-d h:i:s', strtotime($request->destEdaytime));
 
         $destination = Destination::findorfail($id);
         $destination->name = $request->get('name');
         $destination->price = $request->get('price');
-        $destination->start_date_time = $start;
-        $destination->end_date_time = $end;
+        $destination->start_date_time = $request->destSdaytime;
+        $destination->end_date_time = $request->destEdaytime;
         $destination->description = $request->get('description');
+        $destination->video = $request->get('video');
+        $destination->countryId = $request->get('country');
+        $destination->hotelname = $request->get('hotelname');
+        $destination->hoteladd = $request->get('hoteladd');
+        $destination->addinfo = $request->get('addinfo');
         $destination->status = $request->get('status')?1:0;
         /* Check Include Data from request */
         if($request->has('includes')){
@@ -228,6 +263,20 @@ class DestinationControllers extends Controller
         }else{
         	$Excludesdata = null;
         	$destination->excludesId = $Excludesdata;
+        }
+        if($request->has('deposite')){
+            $Depositedata = '';
+            $DepositedataArr = [];
+            foreach ($request->deposite as $deposite) {
+                $DepositedataArr[] = $deposite;
+            }
+            if (!empty($DepositedataArr)) {
+                $Depositedata = implode(',', $DepositedataArr);
+            }
+            $destination->depositeId = $Depositedata;
+        }else{
+            $Depositedata = null;
+            $destination->depositeId = $Depositedata;
         }
         /* Check Activities Data from request */
         if($request->has('activities')){
@@ -319,7 +368,53 @@ class DestinationControllers extends Controller
             }
          
     }
+    public function createExtra($type) {
+        if($type == 'include'){
+        $data = Includedata::orderBy('created_at','desc')->get();
+        }elseif($type == 'excludes'){
+        $data = Excludedata::orderBy('created_at','desc')->get();
+        }else{
+        $data = Depositedata::orderBy('created_at','desc')->get();    
+        }
+        return view('admin.extra.create',compact('data','type'));
+    }
+    public function storeExtra(Request $request) {
 
-    
+        $request->validate([
+            "name" => 'required'
+            ]); 
+        if($request->type== 'include'){
+        $data = new Includedata([
+         'name' => request('name')  
+        ]);
+        }elseif($request->type== 'exclude'){
+        $data = new Excludedata([
+         'name' => request('name')  
+        ]);
+        }else{
+            $data = new Depositedata([
+         'name' => request('name')  
+           ]); 
+        }
+        $data->save();
+         return redirect()->back()->with(['alert' => 'success', 'message' => 'Data Saved Succesfully']);
+        
+    }
+    public function destroyExtra(Request $request) {
+        $id = $request->extraId;
+        $type = $request->extraType;
+        if($type == 'include'){
+         $extra = Includedata::findorfail($id);
+        }elseif($type == 'exclude'){
+         $extra = Excludedata::findorfail($id);
+        }else{
+         $extra = Depositedata::findorfail($id);
+        }
+        $extra->delete();
+        
+
+        return redirect()->back()->with(['alert' => 'success', 'message' => 'Data Deleted Succesfully']);
+
+    }
 
 }
